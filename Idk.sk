@@ -1,0 +1,19 @@
+options:
+    prefix : &8[&cCore&8]
+    kickmessage : &cThrowPvP &7is currently not open to public! Check back later or @ &cthrowpvp.com
+Command /maintenancemode:
+    permission: maintenance.command
+    permission message: &cYou cannot do this!
+    trigger:
+        If {maintenance.mode} is true:
+            set {maintenance.mode} to false
+            message "{@prefix}&7 MaintenanceMode disabled"
+        If {maintenance.mode} is false:
+            set {maintenance.mode} to true
+            message "{@prefix}&7 MaintenanceMode enabled"
+            loop all players:
+                loop-player doesn't have permission "maintenance.allowon"
+                kick the player due to "{@kickmessage}
+On connect:
+    If {maintenance.mode} is true:
+            kick the player due to "{@kickmessage}"
